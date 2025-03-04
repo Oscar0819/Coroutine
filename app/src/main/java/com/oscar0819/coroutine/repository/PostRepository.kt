@@ -1,8 +1,11 @@
 package com.oscar0819.coroutine.repository
 
+import android.os.Looper
+import android.util.Log
 import com.google.gson.JsonObject
 import com.oscar0819.coroutine.ApiService
 import com.oscar0819.coroutine.model.PostResponse
+import com.oscar0819.coroutine.utils.AppCoroutineDispatchers
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,12 +23,15 @@ sealed class Result<out R> {
 
 @Singleton
 class PostRepository @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val dispatchers: AppCoroutineDispatchers,
 ) {
     suspend fun makePostRequest(
         jsonObject: JSONObject
-    ): Result<PostResponse> {
-        return try {
+    ): Result<PostResponse> = withContext(dispatchers.io) {
+        return@withContext try {
+            Log.d("thread", "isMain = ${Looper.myLooper() == Looper.getMainLooper() }")
+
             val response = apiService.post(jsonObject)
             if (response.isSuccessful) {
                 Result.Success(response.body()!!)
