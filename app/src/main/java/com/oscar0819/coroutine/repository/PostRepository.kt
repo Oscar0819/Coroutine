@@ -9,6 +9,8 @@ import com.oscar0819.coroutine.utils.AppCoroutineDispatchers
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.HttpURLConnection
@@ -42,4 +44,6 @@ class PostRepository @Inject constructor(
             Result.Error(e)
         }
     }
+
+//    fun getPost(): Flow<PostResponse> { }
 }

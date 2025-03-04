@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.button.setOnClickListener {
-            viewModel.post(333, "lucky", "guy")
+            viewModel.testWithContextAndCoroutineScope()
+//            viewModel.post(333, "lucky", "guy")
         }
 
     }

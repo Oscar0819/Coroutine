@@ -7,7 +7,11 @@ import com.oscar0819.coroutine.model.PostResponse
 import com.oscar0819.coroutine.repository.PostRepository
 import com.oscar0819.coroutine.repository.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -28,5 +32,24 @@ class PostViewModel @Inject constructor(
 
 
         Log.d("ewp", result.toString())
+    }
+
+    fun post() = viewModelScope.launch {
+
+    }
+
+    fun testWithContextAndCoroutineScope() = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            delay(5000)
+            Log.d("test", "withContext reached")
+        }
+
+//        CoroutineScope(Dispatchers.IO).launch {
+//            delay(5000)
+//            Log.d("test", "CoroutineScope reached")
+//        }
+
+        delay(2000)
+        Log.d("test", "End viewModelScope")
     }
 }
