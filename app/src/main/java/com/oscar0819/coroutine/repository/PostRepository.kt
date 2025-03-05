@@ -2,19 +2,13 @@ package com.oscar0819.coroutine.repository
 
 import android.os.Looper
 import android.util.Log
-import com.google.gson.JsonObject
 import com.oscar0819.coroutine.ApiService
+import com.oscar0819.coroutine.datasource.PostRemoteDataSource
 import com.oscar0819.coroutine.model.PostResponse
 import com.oscar0819.coroutine.utils.AppCoroutineDispatchers
-import dagger.Provides
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import java.net.HttpURLConnection
-import java.net.URL
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,9 +19,15 @@ sealed class Result<out R> {
 
 @Singleton
 class PostRepository @Inject constructor(
+    private val postRemoteDataSource: PostRemoteDataSource,
     private val apiService: ApiService,
     private val dispatchers: AppCoroutineDispatchers,
 ) {
+
+//    val postResponse: Flow<PostResponse> =
+//        postRemoteDataSource
+
+
     suspend fun makePostRequest(
         jsonObject: JSONObject
     ): Result<PostResponse> = withContext(dispatchers.io) {
